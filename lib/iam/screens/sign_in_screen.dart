@@ -1,5 +1,6 @@
 import 'package:detekto_app/iam/screens/widgets/auth_submit_button.dart';
 import 'package:detekto_app/iam/screens/widgets/auth_text_field.dart';
+import 'package:detekto_app/iam/services/sign_in_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -62,8 +63,17 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 16),
               AuthSubmitButton(
                 label: "Continuar",
-                onPressed: () {
-                  context.go("/home");
+                onPressed: () async {
+                  final email = _emailController.text.trim();
+                  final password = _passwordController.text.trim();
+                  final success = await SignInService().signIn(email, password);
+                  if (success && mounted) {
+                    context.go('/home');
+                  } else if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Credenciales inválidas')),
+                    );
+                  }
                 },
               ),
               const SizedBox(height: 16),

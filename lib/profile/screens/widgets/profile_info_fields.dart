@@ -1,17 +1,19 @@
+import 'package:detekto_app/profile/models/store_vendor.dart';
 import 'package:flutter/material.dart';
 
 class ProfileInfoFields extends StatelessWidget {
-  const ProfileInfoFields({super.key});
+  final StoreVendor vendor;
+
+  const ProfileInfoFields({super.key, required this.vendor});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        _ReadOnlyField(
-            label: "Nombre completo", value: "Abel Anderson De La Piedra"),
-        _ReadOnlyField(label: "Correo", value: "u2050@upc.edu.pe"),
-        _ReadOnlyField(label: "Género", value: "Hombre"),
-        _ReadOnlyField(label: "Edad", value: "19 Años"),
+        _ReadOnlyField(label: "Nombre completo", value: vendor.username),
+        _ReadOnlyField(label: "Correo", value: vendor.email),
+        _ReadOnlyField(label: "Género", value: vendor.gender),
+        _ReadOnlyField(label: "Edad", value: vendor.age),
       ],
     );
   }

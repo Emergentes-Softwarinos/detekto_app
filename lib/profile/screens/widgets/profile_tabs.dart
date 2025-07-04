@@ -1,9 +1,12 @@
+import 'package:detekto_app/profile/models/store_vendor.dart';
 import 'package:detekto_app/profile/screens/widgets/profile_info_fields.dart';
 import 'package:detekto_app/profile/screens/widgets/profile_photo_placeholder.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTabs extends StatefulWidget {
-  const ProfileTabs({super.key});
+  final StoreVendor vendor;
+
+  const ProfileTabs({super.key, required this.vendor});
 
   @override
   State<ProfileTabs> createState() => _ProfileTabsState();
@@ -40,7 +43,7 @@ class _ProfileTabsState extends State<ProfileTabs> {
           ),
           const SizedBox(height: 20),
           selectedTab == 0
-              ? const ProfileInfoFields()
+              ? ProfileInfoFields(vendor: widget.vendor)
               : const PhotoPlaceholder(),
         ],
       ),
@@ -53,8 +56,11 @@ class _TabItem extends StatelessWidget {
   final bool selected;
   final VoidCallback onTap;
 
-  const _TabItem(
-      {required this.label, required this.selected, required this.onTap});
+  const _TabItem({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

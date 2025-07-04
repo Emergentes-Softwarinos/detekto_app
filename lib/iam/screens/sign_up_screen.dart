@@ -1,5 +1,7 @@
 import 'package:detekto_app/iam/screens/widgets/auth_submit_button.dart';
 import 'package:detekto_app/iam/screens/widgets/auth_text_field.dart';
+import 'package:detekto_app/iam/screens/widgets/dropdown_role.dart';
+import 'package:detekto_app/iam/services/sign_up_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,6 +18,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _acceptTerms = false;
+  String _selectedRole = 'ROLE_USER';
+
+  final _signUpService = SignUpService();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +57,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 showToggle: true,
               ),
               const SizedBox(height: 16),
+              RoleDropdownField(
+                selectedRole: _selectedRole,
+                onChanged: (value) {
+                  if (value != null) {
+                    setState(() => _selectedRole = value);
+                  }
+                },
+              ),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Checkbox(
@@ -84,7 +98,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 16),
               AuthSubmitButton(
                 label: "Registrarme",
-                onPressed: () {
+                onPressed: () async {
                   if (!_acceptTerms) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -93,8 +107,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     return;
                   }
 
-                  // Aquí puedes llamar a tu controlador/backend para registrar
-                  // Ej: AuthController.register(name, email, password);
+                  final message = await _signUpService.signUp(
+                    _nameController.text.trim(),
+                    _emailController.text.trim(),
+                    _passwordController.text.trim(),
+                    [_selectedRole],
+                  );
+
+                  if (message == null) {
+                    // Éxito
+                    if (context.mounted) {
+                      context.go('/sign-in');
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(message)),
+                    );
+                  }
                 },
               ),
               const SizedBox(height: 24),

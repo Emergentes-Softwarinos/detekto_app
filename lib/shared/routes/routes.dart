@@ -2,6 +2,7 @@ import 'package:detekto_app/home/screens/home_screen.dart';
 import 'package:detekto_app/iam/screens/sign_in_screen.dart';
 import 'package:detekto_app/iam/screens/sign_up_screen.dart';
 import 'package:detekto_app/main_screen.dart';
+import 'package:detekto_app/object_detection/presentation/pages/camera_page.dart';
 import 'package:detekto_app/profile/screens/profile_screen.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,7 +31,10 @@ final routes = GoRouter(
           path: '/profile',
           builder: (context, state) => const ProfileScreen(),
         ),
-        // Aquí puedes agregar /cart, /store, etc.
+        GoRoute(
+          path: '/object-detection',
+          builder: (context, state) => const CameraPage(),
+        )
       ],
     ),
   ],

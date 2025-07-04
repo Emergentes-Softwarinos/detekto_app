@@ -14,6 +14,8 @@ class MainScreen extends StatelessWidget {
   // Devuelve el título dinámico del AppBar
   String _getTitle(String location) {
     if (location.startsWith('/profile')) return 'Perfil';
+    if (location.startsWith('/object-detection')) return 'Detección de Objetos';
+    if (location.startsWith('/home')) return 'Inicio';
     return 'Inicio';
   }
 
