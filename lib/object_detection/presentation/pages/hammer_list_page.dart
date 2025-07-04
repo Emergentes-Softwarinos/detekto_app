@@ -18,7 +18,7 @@ class HammerListPage extends StatelessWidget {
           children: [
             // Imagen superior desde tu backend
             Image.network(
-              'http://10.0.2.2:8000/ultima-imagen', // Cambia si usas otro host o dispositivo real
+              'http://10.0.2.2:8000/ultima-imagen?timestamp=${DateTime.now().millisecondsSinceEpoch}', // Cambia si usas otro host o dispositivo real
               fit: BoxFit.contain,
               width: double.infinity,
               errorBuilder: (context, error, stackTrace) {
