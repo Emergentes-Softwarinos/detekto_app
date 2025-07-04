@@ -9,29 +9,18 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Oculta el teclado si se hace tap fuera de un TextField
-        FocusScope.of(context).unfocus();
-      },
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: const SafeArea(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Container(
+        color: Colors.white, // ✅ Fondo blanco sólido
+        width: double.infinity,
+        height: double.infinity,
+        child: const SafeArea(
           child: Padding(
             padding: EdgeInsets.all(16.0),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 12),
-                  Center(
-                    child: Text(
-                      'Inicio',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                   SizedBox(height: 16),
                   HomeSearchBar(),
                   SizedBox(height: 30),
@@ -48,34 +37,6 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-        ),
-        bottomNavigationBar: SizedBox(
-          height: 65,
-          child: BottomNavigationBar(
-            fixedColor: const Color.fromARGB(255, 16, 184, 72),
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-            selectedFontSize: 0,
-            unselectedFontSize: 0,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            elevation: 0,
-            iconSize: 30,
-            selectedIconTheme: const IconThemeData(size: 30),
-            unselectedIconTheme: const IconThemeData(size: 30),
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart), label: ''),
-              BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: ''),
-              BottomNavigationBarItem(icon: Icon(Icons.store), label: ''),
-              BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-            ],
-            currentIndex: 0,
-            onTap: (index) {
-              // TODO: navegación por índice
-            },
           ),
         ),
       ),
