@@ -5,13 +5,11 @@ class MainScreen extends StatelessWidget {
   final Widget child;
   const MainScreen({super.key, required this.child});
 
-  // Devuelve el índice actual del tab en función de la ruta activa
   int _getCurrentIndex(String location) {
     if (location.startsWith('/profile')) return 1;
-    return 0; // Default: /home
+    return 0;
   }
 
-  // Devuelve el título dinámico del AppBar
   String _getTitle(String location) {
     if (location.startsWith('/profile')) return 'Perfil';
     if (location.startsWith('/object-detection')) return 'Detección de Objetos';
@@ -33,32 +31,55 @@ class MainScreen extends StatelessWidget {
         elevation: 0.5,
       ),
       body: SafeArea(child: child),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        onTap: (index) {
-          // Navegación por contexto
-          if (index == 0) {
-            context.go('/home');
-          } else if (index == 1) {
-            context.go('/profile');
-          }
-        },
-        fixedColor: const Color.fromARGB(255, 16, 184, 72),
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        selectedFontSize: 0,
-        unselectedFontSize: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        elevation: 0,
-        iconSize: 30,
-        selectedIconTheme: const IconThemeData(size: 30),
-        unselectedIconTheme: const IconThemeData(size: 30),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ''),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: ''),
-        ],
+      bottomNavigationBar: Theme(
+        data: Theme.of(context).copyWith(
+          splashFactory: NoSplash.splashFactory,
+          highlightColor: Colors.transparent,
+        ),
+        child: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) {
+            if (index == 0) {
+              context.go('/home');
+            } else if (index == 1) {
+              context.go('/profile');
+            }
+          },
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          selectedFontSize: 0,
+          unselectedFontSize: 0,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          elevation: 0,
+          iconSize: 30,
+          items: [
+            BottomNavigationBarItem(
+              icon: _buildIcon(Icons.home, isSelected: currentIndex == 0),
+              label: '',
+            ),
+            BottomNavigationBarItem(
+              icon: _buildIcon(Icons.person, isSelected: currentIndex == 1),
+              label: '',
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _buildIcon(IconData icon, {required bool isSelected}) {
+    if (isSelected) {
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          borderRadius: BorderRadius.circular(12),
+        ),
+        padding: const EdgeInsets.all(10),
+        child: Icon(icon, color: Color.fromARGB(255, 16, 184, 72)),
+      );
+    } else {
+      return Icon(icon, color: Colors.black);
+    }
   }
 }
